@@ -13,7 +13,7 @@ def facet_decade(string)
   matches = string.scan(/(?<!\d)(\d{4})(?!\d)/)
   matches = matches.map { |x| x.at(0).to_i }
   matches = matches.select { |x| x > 1000 }
-  matches = matches.select { |x| x < year }
+  matches = matches.select { |x| x <= year }
   start = matches.min.to_i / 10 * 10
   endt = matches.max.to_i
   if matches.empty?

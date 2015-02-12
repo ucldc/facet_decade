@@ -23,6 +23,7 @@ def main(argv=None):
 
 def facet_decade(string):
     """ process string and return array of decades """
+    year = date.today().year
     # get all the 4 digit strings
     # negative lookahead and negative lookbehind are non-grouping
     pattern = re.compile(r'(?<!\d)(\d{4})(?!\d)')
@@ -30,7 +31,7 @@ def facet_decade(string):
     # filter out > 1000
     matches = filter(lambda a: a > 1000, matches)
     # filter out the future
-    matches = filter(lambda a: a < date.today().year, matches)
+    matches = filter(lambda a: a <= year, matches)
     # x / 10 * 10 rounds down to the decade
     if not matches:
         return []
