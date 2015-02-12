@@ -1,11 +1,17 @@
 #!/usr/bin/env groovy
 
-import org.cdlib.dsc.util.FacetDecade
-
 if (!args) {
   println 'usage: facet_decade.groovy: "date string" ["date string" ...]'
   System.exit(0)
 }
+
+// modify CLASSPATH to include the current directory
+def loader = this.class.classLoader.rootLoader
+URL url = new File(System.getProperty("user.dir")).toURI().toURL();
+loader.addURL(url)
+
+// the java class we are wrapping
+import org.cdlib.dsc.util.FacetDecade
 
 FacetDecade dec = new FacetDecade()
 
