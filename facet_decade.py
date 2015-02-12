@@ -2,9 +2,12 @@
 # -*- coding: utf-8 -*-
 """ facet decade in python """
 
-from pprint import pprint as pp
 import sys
 import argparse
+import re
+from datetime import date
+import itertools
+import json
 
 
 def main(argv=None):
@@ -15,8 +18,22 @@ def main(argv=None):
         argv = parser.parse_args()
 
     for string in argv.string:
-        pp(string)
+        print json.dumps((facet_decade(string)))
 
+
+def facet_decade(string):
+    # get all the 4 year strings
+    pattern = re.compile(r'(?<!\d)(\d{4})(?!\d)')
+    matches = [int(match) for match in re.findall(pattern, string)]
+    # filter out > 1000
+    matches = filter(lambda a: a > 1000, matches)
+    # filter out the future
+    matches = filter(lambda a: a < date.today().year, matches)
+    # x / 10 * 10 rounds down to the decade
+    start = (min(matches) / 10) * 10
+    end = max(matches)
+    return map('{0}s'.format, range(start, end, 10))
+    
 
 # main() idiom for importing into REPL for debugging
 if __name__ == "__main__":
