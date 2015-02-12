@@ -9,8 +9,17 @@ if (!args) {
 
 FacetDecade dec = new FacetDecade()
 
-args.each{ x ->
-  println dec.facetDecade(x)
+args.each{ string ->
+  // get back XML
+  def xml = dec.facetDecade(string)
+  // parse it
+  def decades_xml = new XmlParser().parseText( xml )
+  // collect all the decades out of it
+  def decades_array = decades_xml.decade.collect{ it.value()[0] }
+  // convert it to JSON
+  def json = new groovy.json.JsonBuilder( decades_array )
+  // print the results
+  println json
 }
 
 /*
