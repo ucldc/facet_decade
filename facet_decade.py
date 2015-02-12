@@ -32,6 +32,8 @@ def facet_decade(string):
     # filter out the future
     matches = filter(lambda a: a < date.today().year, matches)
     # x / 10 * 10 rounds down to the decade
+    if not matches:
+        return []
     start = (min(matches) / 10) * 10
     end = max(matches)
     return map('{0}s'.format, range(start, end, 10))
