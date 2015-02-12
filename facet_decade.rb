@@ -1,10 +1,9 @@
 #!/usr/bin/env ruby
 
 require 'json'
-require 'pp'
 
 if ARGV.empty?
-  puts "usage:"
+  puts 'usage: facet_decade.rb: "date string" ["date string" ...]'
   exit
 end
 
