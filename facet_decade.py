@@ -22,7 +22,9 @@ def main(argv=None):
 
 
 def facet_decade(string):
-    # get all the 4 year strings
+    """ process string and return array of decades """
+    # get all the 4 digit strings
+    # negative lookahead and negative lookbehind are non-grouping
     pattern = re.compile(r'(?<!\d)(\d{4})(?!\d)')
     matches = [int(match) for match in re.findall(pattern, string)]
     # filter out > 1000
@@ -38,6 +40,7 @@ def facet_decade(string):
 # main() idiom for importing into REPL for debugging
 if __name__ == "__main__":
     sys.exit(main())
+
 
 """
 Copyright © 2015, Regents of the University of California
