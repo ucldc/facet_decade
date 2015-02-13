@@ -8,7 +8,7 @@ var facetDecade = function(string) {
     return []
   }
   matches = matches.filter(function(n) {
-    return n > 1000 && n <= year;
+    return n >= 1000 && n <= year;
   });
   var max = Math.max.apply(null, matches);
   var min = Math.min.apply(null, matches);

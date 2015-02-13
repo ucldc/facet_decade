@@ -29,7 +29,7 @@ def facet_decade(string):
     pattern = re.compile(r'(?<!\d)(\d{4})(?!\d)')
     matches = [int(match) for match in re.findall(pattern, string)]
     # filter out > 1000
-    matches = filter(lambda a: a > 1000, matches)
+    matches = filter(lambda a: a >= 1000, matches)
     # filter out the future
     matches = filter(lambda a: a <= year, matches)
     # x / 10 * 10 rounds down to the decade
