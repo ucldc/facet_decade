@@ -27,23 +27,43 @@ check_for() {
 check_for groovy python ruby node jq
 
 run_all () {
+  for command in $(ls facet_decade.*); do
+    echo $command
+    (./$command "$@") | jq .
+  done
+}
+
+check_all () {
   # make sure all the versions have the same output
   local check=''
   for command in $(ls facet_decade.*); do
     next_check=$((./$command "$@") | jq . | $md5)
     if [[ $check ]]; then
-      [[ $check == $next_check ]] || { echo >&2 "mismatch"; exit 1;}
+      if ! [[ $check == $next_check ]]; then
+        echo >&2 "mismatch in: \"$@\""
+        run_all "$@"
+        exit 1
+      fi
     fi
     check=$next_check
   done
   echo "hash: $check in: \"$@\" "
 }
 
-run_all "hey" 
-run_all ""
-run_all "1 11 111 2222 22222"
-run_all "1 11 111 1111 11111"
-run_all "1952-12-21 to 2014-10-22"
+
+YEAR=$(date +"%Y")
+NEXT_YEAR=$YEAR+1
+
+check_all "1001 $NEXT_YEAR"
+check_all "1000 $YEAR"
+check_all "1920 1951"
+check_all "1920 1949"
+check_all "1920 1950"
+check_all "hey" 
+check_all ""
+check_all "1 11 111 2222 22222"
+check_all "1 11 111 1111 11111"
+check_all "1952-12-21 to 2014-10-22"
 
 
 # http://www.cyberciti.biz/faq/bash-comment-out-multiple-line-code/
