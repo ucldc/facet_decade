@@ -10,6 +10,20 @@ import itertools
 import json
 
 
+def facet_decade(string):
+    """ process string and return array of decades """
+    year = date.today().year
+    pattern = re.compile(r'(?<!\d)(\d{4})(?!\d)')
+    matches = [int(match) for match in re.findall(pattern, string)]
+    matches = filter(lambda a: a >= 1000, matches)
+    matches = filter(lambda a: a <= year, matches)
+    if not matches:
+        return []
+    start = (min(matches) / 10) * 10
+    end = max(matches) + 1
+    return map('{0}s'.format, range(start, end, 10))
+    
+
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument('string', nargs="+")
@@ -20,25 +34,6 @@ def main(argv=None):
     for string in argv.string:
         print json.dumps((facet_decade(string)))
 
-
-def facet_decade(string):
-    """ process string and return array of decades """
-    year = date.today().year
-    # get all the 4 digit strings
-    # negative lookahead and negative lookbehind are non-grouping
-    pattern = re.compile(r'(?<!\d)(\d{4})(?!\d)')
-    matches = [int(match) for match in re.findall(pattern, string)]
-    # filter out > 1000
-    matches = filter(lambda a: a >= 1000, matches)
-    # filter out the future
-    matches = filter(lambda a: a <= year, matches)
-    # x / 10 * 10 rounds down to the decade
-    if not matches:
-        return []
-    start = (min(matches) / 10) * 10
-    end = max(matches) + 1
-    return map('{0}s'.format, range(start, end, 10))
-    
 
 # main() idiom for importing into REPL for debugging
 if __name__ == "__main__":

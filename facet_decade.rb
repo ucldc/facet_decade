@@ -2,23 +2,23 @@
 
 require 'json'
 
-if ARGV.empty?
-  puts 'usage: facet_decade.rb: "date string" ["date string" ...]'
-  exit
-end
-
 def facet_decade(string)
   year = Time.new.year
   matches = string.scan(/(?<!\d)(\d{4})(?!\d)/)
   matches = matches.map { |x| x.at(0).to_i }
   matches = matches.select { |x| x >= 1000 }
   matches = matches.select { |x| x <= year }
-  start = matches.min.to_i / 10 * 10
-  endt = matches.max.to_i
   if matches.empty?
     return []
   end
+  start = matches.min.to_i / 10 * 10
+  endt = matches.max.to_i
   return (start..endt).step(10).to_a.map { |x| x.to_s + 's' }
+end
+
+if ARGV.empty?
+  puts 'usage: facet_decade.rb: "date string" ["date string" ...]'
+  exit
 end
 
 ARGV.each do|a|
