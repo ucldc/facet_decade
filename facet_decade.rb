@@ -3,6 +3,7 @@
 require 'json'
 
 def facet_decade(string)
+  # process string and return array of decades 
   year = Time.new.year
   matches = string.scan(/(?<!\d)(\d{4})(?!\d)/)
   matches = matches.map { |x| x.at(0).to_i }

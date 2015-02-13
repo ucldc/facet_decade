@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var facetDecade = function(string) {
+  /*  process string and return array of decades  */
   var year = new Date().getFullYear();
   var re = /(\d+)/g;
   var matches = string.match(re);
