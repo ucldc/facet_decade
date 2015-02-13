@@ -4,11 +4,11 @@ Super simple decade facet from date strings.
 
 Take a string, interpret the values within it as dates, and generate a list of decades that span those dates.
 
- 1. regex on `(\d+)` or `(?<!\d)(\d{4})(?!\d)` into array or loop
+ 1. regex on `(?<!\d)(\d{4})(?!\d)` or `(\d+)`, collect into array
  2. parse into integers if possible
  3. ignore things `<=1000` and `>=` **current year**
  4. find the min and max of what is left
- 5. flatten the min the the lowest decade `(integer * 10 / 10)` or `Math.floor`
+ 5. round down to the decade boundry `(integer * 10 / 10)` or `Math.floor`
  6. count off the decades from min to max
  7. add an `s` to the end of ever integer and convert to string
  8. return an array of decades
@@ -32,6 +32,11 @@ facet_decade.py: error: too few arguments
 
 ./facet_decade.rb 
 usage: facet_decade.rb: "date string" ["date string" ...]
+```
+
+```
+./test.sh         # run tests
+./test.sh string  # run each command in turn, supplying `string`
 ```
 
 ## use with XTF / from saxon
