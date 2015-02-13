@@ -50,7 +50,7 @@ check_all () {
   echo "hash: $check in: \"$@\" "
 }
 
-if [ $# > 1 ]; then
+if ! [ $# -eq 0 ]; then
   run_all "$@"
   exit 0
 fi
