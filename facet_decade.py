@@ -36,7 +36,7 @@ def facet_decade(string):
     if not matches:
         return []
     start = (min(matches) / 10) * 10
-    end = max(matches)
+    end = max(matches) + 1
     return map('{0}s'.format, range(start, end, 10))
     
 
