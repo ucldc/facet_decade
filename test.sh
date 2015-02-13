@@ -50,6 +50,11 @@ check_all () {
   echo "hash: $check in: \"$@\" "
 }
 
+if [ $# > 1 ]; then
+  run_all "$@"
+  exit 0
+fi
+
 
 YEAR=$(date +"%Y")
 NEXT_YEAR=$((YEAR + 1))
