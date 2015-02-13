@@ -10,35 +10,65 @@ set -o errexit   ## set -e : exit the script if any statement returns a non-true
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
 
-if hash md5 2>/dev/null
-then
+if hash md5 2>/dev/null; then
   md5='md5'
-elif hash md5sum 2>/dev/null
-then
+elif hash md5sum 2>/dev/null; then
   md5='md5sum'
 else
-  echo "no md5"
+  echo >&2 "no md5 or md5sum found"
   exit 1
 fi
 
 check_for() {
-  for arg in $@
-  do
-    hash $arg 2>/dev/null || { echo >&2 "$arg required"; exit 1; }
+  for arg in $@; do
+    hash $arg 2>/dev/null || { echo >&2 "no $arg found"; exit 1; }
   done
 }
 check_for groovy python ruby node jq
 
 run_all () {
-  for command in $(ls facet_decade.*)
-  do
-    echo $command
-    (./$command "$@") | jq . | $md5
+  # make sure all the versions have the same output
+  local check=''
+  for command in $(ls facet_decade.*); do
+    next_check=$((./$command "$@") | jq . | $md5)
+    if [[ $check ]]; then
+      [[ $check == $next_check ]] || { echo >&2 "mismatch"; exit 1;}
+    fi
+    check=$next_check
   done
+  echo "hash: $check in: \"$@\" "
 }
 
 run_all "hey" 
-run_all "1 11 111 1111 11111"
-run_all "1 11 111 2222 22222"
 run_all ""
+run_all "1 11 111 2222 22222"
+run_all "1 11 111 1111 11111"
 run_all "1952-12-21 to 2014-10-22"
+
+
+# http://www.cyberciti.biz/faq/bash-comment-out-multiple-line-code/
+: '
+Copyright © 2015, Regents of the University of California
+All rights reserved.
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+- Redistributions of source code must retain the above copyright notice,
+  this list of conditions and the following disclaimer.
+- Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+- Neither the name of the University of California nor the names of its
+  contributors may be used to endorse or promote products derived from this
+  software without specific prior written permission.
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+'
