@@ -4,6 +4,9 @@ var facetDecade = function(string) {
   var year = new Date().getFullYear();
   var re = /(\d+)/g;
   var matches = string.match(re);
+  if (!matches) {
+    return []
+  }
   matches = matches.filter(function(n) {
     return n > 1000 && n <= year;
   });
@@ -22,7 +25,7 @@ if (process.argv.length <= 2) {
 }
 
 for (var i = 2; i < process.argv.length; i++){
-  process.stdout.write(JSON.stringify(facetDecade(process.argv[i])));
+  process.stdout.write(JSON.stringify(facetDecade(process.argv[i]))+'\n');
 }
 
 module.exports = facetDecade;
