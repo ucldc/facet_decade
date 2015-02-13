@@ -22,9 +22,7 @@ if (process.argv.length <= 2) {
 }
 
 for (var i = 2; i < process.argv.length; i++){
-  console.dir(
-    facetDecade(process.argv[i])
-  );
+  process.stdout.write(JSON.stringify(facetDecade(process.argv[i])));
 }
 
 module.exports = facetDecade;
