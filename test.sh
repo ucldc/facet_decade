@@ -52,7 +52,7 @@ check_all () {
 
 
 YEAR=$(date +"%Y")
-NEXT_YEAR=$YEAR+1
+NEXT_YEAR=$((YEAR + 1))
 
 check_all "1001 $NEXT_YEAR"
 check_all "1000 $YEAR"
