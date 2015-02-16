@@ -10,6 +10,7 @@ use utf8;
 use JSON qw( to_json );
 
 sub facet_decade {
+  # process string and return array reference of decades
   my ($string) = @_;
   my ($year, @matches, @decades);
   $year = Time::Piece->new()->year;
