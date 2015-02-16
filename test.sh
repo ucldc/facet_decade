@@ -24,11 +24,12 @@ check_for() {
     hash $arg 2>/dev/null || { echo >&2 "no $arg found"; exit 1; }
   done
 }
-check_for groovy python ruby node jq
+check_for groovy perl python ruby node jq
 
 run_all () {
   for command in $(ls facet_decade.*); do
     echo $command
+    if ! [[ -x $command ]]; then continue; fi
     (./$command "$@") | jq .
   done
 }
@@ -37,6 +38,7 @@ check_all () {
   # make sure all the versions have the same output
   local check=''
   for command in $(ls facet_decade.*); do
+    if ! [[ -x $command ]]; then continue; fi
     next_check=$((./$command "$@") | jq . | $md5)
     if [[ $check ]]; then
       if ! [[ $check == $next_check ]]; then
@@ -50,10 +52,13 @@ check_all () {
   echo "hash: $check in: \"$@\" "
 }
 
+# ad hoc tests by supplying arguments
 if ! [ $# -eq 0 ]; then
   run_all "$@"
   exit 0
 fi
+
+# run all tests if no argements given
 
 
 YEAR=$(date +"%Y")
@@ -69,6 +74,9 @@ check_all ""
 check_all "1 11 111 2222 22222"
 check_all "1 11 111 1111 11111"
 check_all "1952-12-21 to 2014-10-22"
+
+# perl -Mfacet_decade -e 'facet_decade.facet_decade("1922")'
+# python -c 'import facet_decade; facet_decade.facet_decade("1922")'
 
 
 # http://www.cyberciti.biz/faq/bash-comment-out-multiple-line-code/
