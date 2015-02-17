@@ -47,7 +47,6 @@ check_for() {
     hash $arg 2>/dev/null || { echo >&2 "no $arg found"; exit 1; }
   done
 }
-check_for groovy perl python ruby node jq
 
 run_all () {
   for command in $(ls facet_decade.*); do
@@ -62,7 +61,7 @@ check_all () {
   local check=''
   for command in $(ls facet_decade.*); do
     if ! [[ -x $command ]]; then continue; fi
-    next_check=$((./$command "$@") | jq . | $md5)
+    next_check=$( (./$command "$@") | jq . | $md5 )
     if [[ $check ]]; then
       if ! [[ $check == $next_check ]]; then
         echo >&2 "mismatch in: \"$@\""
@@ -74,6 +73,11 @@ check_all () {
   done
   echo "hash: $check in: \"$@\" "
 }
+
+check_for groovy perl python ruby node jq javac
+if ! [[ -e 'org/cdlib/dsc/util/FacetDecade.class' ]]; then
+  javac org/cdlib/dsc/util/FacetDecade.java
+fi
 
 # ad hoc tests by supplying arguments
 if ! [ $# -eq 0 ]; then
