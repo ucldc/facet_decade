@@ -1,4 +1,25 @@
 #!/usr/bin/env bash
+tests() {
+  echo "check loading as library and calling"
+  perl -Mfacet_decade -e 'facet_decade::facet_decade("1922")'
+  python -c 'import facet_decade; facet_decade.facet_decade("1922")'
+  ruby -I . -r facet_decade -e 'facet_decade("1922")'
+
+  echo "check outputs against each other"
+  YEAR=$(date +"%Y")
+  NEXT_YEAR=$((YEAR + 1))
+  check_all "1001 $NEXT_YEAR"
+  check_all "1000 $YEAR"
+  check_all "1920 1951"
+  check_all "1920 1949"
+  check_all "1920 1950"
+  check_all "hey" 
+  check_all ""
+  check_all "1 11 111 2222 22222"
+  check_all "1 11 111 1111 11111"
+  check_all "1952-12-21 to 2014-10-22"
+}
+
 if [[ -n "$DEBUG" ]]; then 
   set -x
 fi
@@ -29,8 +50,8 @@ check_for groovy perl python ruby node jq
 
 run_all () {
   for command in $(ls facet_decade.*); do
-    echo $command
     if ! [[ -x $command ]]; then continue; fi
+    echo $command
     (./$command "$@") | jq .
   done
 }
@@ -55,32 +76,10 @@ check_all () {
 
 # ad hoc tests by supplying arguments
 if ! [ $# -eq 0 ]; then
-  run_all "$@"
-  exit 0
+  run_all "$@"; exit 0
 fi
-
 # run all tests if no argements given
-
-echo "check loading as library and calling"
-perl -Mfacet_decade -e 'facet_decade::facet_decade("1922")'
-python -c 'import facet_decade; facet_decade.facet_decade("1922")'
-ruby -I . -r facet_decade -e 'facet_decade("1922")'
-
-
-YEAR=$(date +"%Y")
-NEXT_YEAR=$((YEAR + 1))
-
-echo "check outputs against each other"
-check_all "1001 $NEXT_YEAR"
-check_all "1000 $YEAR"
-check_all "1920 1951"
-check_all "1920 1949"
-check_all "1920 1950"
-check_all "hey" 
-check_all ""
-check_all "1 11 111 2222 22222"
-check_all "1 11 111 1111 11111"
-check_all "1952-12-21 to 2014-10-22"
+tests
 
 # http://www.cyberciti.biz/faq/bash-comment-out-multiple-line-code/
 : '
