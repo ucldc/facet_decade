@@ -1,4 +1,5 @@
 #!/usr/bin/env perl
+package main;
 
 use Time::Piece;
 use List::MoreUtils qw( minmax );
@@ -31,7 +32,7 @@ sub facet_decade {
 sub run {
   my( $class, @args ) = @_;
   if (!@args) {
-    print('usage: facet_decade.pl: "date string" ["date string" ...]\n');
+    print('usage: facet_decade.pm: "date string" ["date string" ...]'."\n");
     exit();
     }
   for my $string (@args) {
