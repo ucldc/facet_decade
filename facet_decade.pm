@@ -14,13 +14,12 @@ sub facet_decade {
   # process string and return array reference of decades
   my ($string) = @_;
   my ($year, @matches, @decades);
+  unless ($string) { return \@decades; }
   $year = Time::Piece->new()->year;
   @matches = ($string =~ m/(?<!\d)(\d{4})(?!\d)/g);
   @matches = grep( $_ >= 1000, @matches);
   @matches = grep( $_ <= $year, @matches);
-  unless (@matches) {
-    return \@decades;
-    }
+  unless (@matches) { return \@decades; }
   my ($start, $end) = minmax @matches;
   $start = floor($start / 10) * 10;
   for (my $x = $start; $x <= $end; $x = $x + 10) {

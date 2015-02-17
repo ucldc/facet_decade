@@ -10,7 +10,7 @@ import itertools
 import json
 
 
-def facet_decade(string):
+def facet_decade(string=''):
     """ process string and return array of decades """
     year = date.today().year
     pattern = re.compile(r'(?<!\d)(\d{4})(?!\d)')

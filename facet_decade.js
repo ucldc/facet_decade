@@ -3,11 +3,10 @@
 var facetDecade = function(string) {
   /*  process string and return array of decades  */
   var year = new Date().getFullYear();
+  if (!string) { return [] };
   var re = /(\d+)/g;
   var matches = string.match(re);
-  if (!matches) {
-    return []
-  }
+  if (!matches) { return [] };
   matches = matches.filter(function(n) {
     return n >= 1000 && n <= year;
   });
