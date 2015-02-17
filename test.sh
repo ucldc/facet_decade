@@ -9,6 +9,7 @@ set -o nounset   ## set -u : exit the script if you try to use an uninitialised 
 set -o errexit   ## set -e : exit the script if any statement returns a non-true return value
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
+cd $DIR
 
 if hash md5 2>/dev/null; then
   md5='md5'
@@ -60,10 +61,16 @@ fi
 
 # run all tests if no argements given
 
+echo "check loading as library and calling"
+perl -Mfacet_decade -e 'facet_decade("1922")'
+python -c 'import facet_decade; facet_decade.facet_decade("1922")'
+ruby -I . -r facet_decade -e 'facet_decade("1922")'
+
 
 YEAR=$(date +"%Y")
 NEXT_YEAR=$((YEAR + 1))
 
+echo "check outputs against each other"
 check_all "1001 $NEXT_YEAR"
 check_all "1000 $YEAR"
 check_all "1920 1951"
@@ -74,10 +81,6 @@ check_all ""
 check_all "1 11 111 2222 22222"
 check_all "1 11 111 1111 11111"
 check_all "1952-12-21 to 2014-10-22"
-
-# perl -Mfacet_decade -e 'facet_decade.facet_decade("1922")'
-# python -c 'import facet_decade; facet_decade.facet_decade("1922")'
-
 
 # http://www.cyberciti.biz/faq/bash-comment-out-multiple-line-code/
 : '
