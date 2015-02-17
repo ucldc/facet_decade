@@ -13,8 +13,8 @@ use JSON qw( to_json );
 sub facet_decade {
   # process string and return array reference of decades
   my ($string) = @_;
+  unless(defined $string) { die("need string paramater"); }
   my ($year, @matches, @decades);
-  unless ($string) { return \@decades; }
   $year = Time::Piece->new()->year;
   @matches = ($string =~ m/(?<!\d)(\d{4})(?!\d)/g);
   @matches = grep( $_ >= 1000, @matches);

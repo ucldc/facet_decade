@@ -1,9 +1,9 @@
 #!/usr/bin/env node
+'use strict';
 
 var facetDecade = function(string) {
   /*  process string and return array of decades  */
   var year = new Date().getFullYear();
-  if (!string) { return [] };
   var re = /(\d+)/g;
   var matches = string.match(re);
   if (!matches) { return [] };
@@ -14,7 +14,7 @@ var facetDecade = function(string) {
   var min = Math.min.apply(null, matches);
   min = Math.floor(min / 10) * 10;
   var decades = [];
-  for (x = min; x <= max; x = x + 10) {
+  for (var x = min; x <= max; x = x + 10) {
     decades.push(x + 's');
   }
   return decades;

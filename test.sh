@@ -1,14 +1,19 @@
 #!/usr/bin/env bash
 tests() {
   echo "check loading as library and calling"
+  # returns string of well formed XML <decades>/<decade>
+  groovy -e 'import org.cdlib.dsc.util.FacetDecade; new FacetDecade().facetDecade("1922")'
+  # return the languages' native array of decade strings
   perl -Mfacet_decade -e 'facet_decade::facet_decade("1922")'
-  perl -Mfacet_decade -e 'facet_decade::facet_decade()'
   python -c 'import facet_decade; facet_decade.facet_decade("1922")'
-  python -c 'import facet_decade; facet_decade.facet_decade()'
   ruby -I . -r facet_decade -e 'facet_decade("1922")'
-  ruby -I . -r facet_decade -e 'facet_decade()'
   node -e 'var facet_decade = require("./facet_decade"); facet_decade("1922")'
-  node -e 'var facet_decade = require("./facet_decade"); facet_decade()'
+  
+  should_fail groovy -e 'import org.cdlib.dsc.util.FacetDecade; new FacetDecade().facetDecade()'
+  should_fail perl -Mfacet_decade -e 'facet_decade::facet_decade()'
+  should_fail python -c 'import facet_decade; facet_decade.facet_decade()'
+  should_fail node -e 'var facet_decade = require("./facet_decade"); facet_decade()'
+  should_fail ruby -I . -r facet_decade -e 'facet_decade()'
 
   echo "check outputs against each other"
   YEAR=$(date +"%Y")
@@ -58,6 +63,16 @@ run_all () {
     echo $command
     (./$command "$@") | jq .
   done
+}
+
+should_fail () {
+  set +e
+  "$@" 2> /dev/null
+  if ! [ $? -ne 0 ] ; then
+    echo "should have failed: $@"
+    exit 1
+  fi
+  set -e
 }
 
 check_all () {
