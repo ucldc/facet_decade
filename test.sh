@@ -4,6 +4,7 @@ tests() {
   perl -Mfacet_decade -e 'facet_decade::facet_decade("1922")'
   python -c 'import facet_decade; facet_decade.facet_decade("1922")'
   ruby -I . -r facet_decade -e 'facet_decade("1922")'
+  node -e 'var facet_decade = require("./facet_decade"); facet_decade("1922")'
 
   echo "check outputs against each other"
   YEAR=$(date +"%Y")

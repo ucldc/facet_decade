@@ -21,12 +21,13 @@ var facetDecade = function(string) {
   return decades;
 }
 
-if (process.argv.length <= 2) {
-  console.log('usage: facet_decade.js: "date string" ["date string" ...]');
-}
-
-for (var i = 2; i < process.argv.length; i++){
-  process.stdout.write(JSON.stringify(facetDecade(process.argv[i]))+'\n');
+if (require.main === module) {
+  if (process.argv.length <= 2) {
+    console.log('usage: facet_decade.js: "date string" ["date string" ...]');
+  }
+  for (var i = 2; i < process.argv.length; i++){
+    process.stdout.write(JSON.stringify(facetDecade(process.argv[i]))+'\n');
+  }
 }
 
 module.exports = facetDecade;
