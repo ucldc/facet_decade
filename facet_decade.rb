@@ -17,13 +17,15 @@ def facet_decade(string)
   return (start..endt).step(10).to_a.map { |x| x.to_s + 's' }
 end
 
-if ARGV.empty?
-  puts 'usage: facet_decade.rb: "date string" ["date string" ...]'
-  exit
-end
+if __FILE__ == $PROGRAM_NAME #equivalent: if __FILE__ == $0
+  if ARGV.empty?
+    puts 'usage: facet_decade.rb: "date string" ["date string" ...]'
+    exit
+  end
 
-ARGV.each do|a|
-  puts facet_decade(a).to_json
+  ARGV.each do|a|
+    puts facet_decade(a).to_json
+  end
 end
 
 
