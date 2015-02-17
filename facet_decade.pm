@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-package main;
+package facet_decade;
 
 use Time::Piece;
 use List::MoreUtils qw( minmax );

@@ -62,7 +62,7 @@ fi
 # run all tests if no argements given
 
 echo "check loading as library and calling"
-perl -Mfacet_decade -e 'facet_decade("1922")'
+perl -Mfacet_decade -e 'facet_decade::facet_decade("1922")'
 python -c 'import facet_decade; facet_decade.facet_decade("1922")'
 ruby -I . -r facet_decade -e 'facet_decade("1922")'
 
