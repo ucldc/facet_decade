@@ -15,29 +15,26 @@ Take a string, interpret the values within it as dates, and generate a list of d
 
 ## Available in multiple languages
 
-Scripts return json
+See [tests.sh](https://github.com/ucldc/facet_decade/blob/master/test.sh)
 
-To run the groovy version, `javac org/cdlib/dsc/util/FacetDecade.java` fisrt.
+The files run as scripts or as modules (except for groovy, which
+is just a wrapper to the java class.)
 
-```
-./facet_decade.groovy 
-usage: facet_decade.groovy: "date string" ["date string" ...]
+To run the groovy version, `javac org/cdlib/dsc/util/FacetDecade.java`
+first.
 
-./facet_decade.js 
-usage: facet_decade.js: "date string" ["date string" ...]
+Running as a script, each command line argument is run against the
+function `facet_decade` and the results are returned one JSON record
+per line.
 
-./facet_decade.py 
-usage: facet_decade.py [-h] string [string ...]
-facet_decade.py: error: too few arguments
+Running as a module, `facet_decade` takes a single string as a
+paramater; and then return an array of facet values (or an array
+reference, in the case of perl).
+The java class returns a string of XML `<decades><decade>...</decade>...</decades>`,
+used as a saxon 8 extension function.
 
-./facet_decade.rb 
-usage: facet_decade.rb: "date string" ["date string" ...]
-```
-
-```
-./test.sh         # run tests
-./test.sh string  # run each command in turn, supplying `string`
-```
+Perl requires [JSON.pm](http://search.cpan.org/perldoc?JSON),
+otherwise only standard libraries are used.
 
 ## use with XTF / from saxon
 
