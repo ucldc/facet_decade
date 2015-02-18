@@ -8,7 +8,6 @@ use POSIX qw( floor );
 use strict;
 use warnings;
 use utf8;
-use JSON qw( to_json );
 
 sub facet_decade {
   # process string and return array reference of decades
@@ -29,6 +28,7 @@ sub facet_decade {
   }
 
 sub run {
+  eval "use JSON"; die $@ if $@;
   my( $class, @args ) = @_;
   if (!@args) {
     print('usage: facet_decade.pm: "date string" ["date string" ...]'."\n");

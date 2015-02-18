@@ -34,7 +34,7 @@ The java class returns a string of XML `<decades><decade>...</decade>...</decade
 used as a saxon 8 extension function.
 
 Perl requires [JSON.pm](http://search.cpan.org/perldoc?JSON),
-otherwise only standard libraries are used.
+when run as a script, otherwise only standard libraries are used.
 
 ## use with XTF / from saxon
 
