@@ -11,7 +11,8 @@ Take a string, interpret the values within it as dates, and generate a list of d
  5. round down to the decade boundry `(integer * 10 / 10)` or `Math.floor`
  6. count off the decades from min to max
  7. add an `s` to the end of ever integer and convert to string
- 8. return an array of decades
+ 8. add a value `unknown` if no decades where found
+ 9. return an array of values
 
 ## Available in multiple languages
 

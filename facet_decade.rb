@@ -10,7 +10,7 @@ def facet_decade(string)
   matches = matches.select { |x| x >= 1000 }
   matches = matches.select { |x| x <= year }
   if matches.empty?
-    return []
+    return ['unknown']
   end
   start = matches.min.to_i / 10 * 10
   endt = matches.max.to_i

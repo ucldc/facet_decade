@@ -86,8 +86,8 @@ public class FacetDecade {
 	    if (iyear > max) max = iyear;
 	    }
 
-	/* If we didn't find any years, don't return anything.  */
-	if (max < 0) return("<decades></decades>");
+	/* If we didn't find any years, return unknown.  */
+	if (max < 0) return("<decades><decade>unknown</decade></decades>");
 
 	/* Set the minimum to a decade boundary.  */
 	min = (min / 10) * 10;

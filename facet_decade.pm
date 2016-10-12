@@ -18,7 +18,10 @@ sub facet_decade {
   @matches = ($string =~ m/(?<!\d)(\d{4})(?!\d)/g);
   @matches = grep( $_ >= 1000, @matches);
   @matches = grep( $_ <= $year, @matches);
-  unless (@matches) { return \@decades; }
+  if (@matches == 0) {
+    push @decades, 'unknown';
+    return \@decades;
+    }
   my ($start, $end) = minmax @matches;
   $start = floor($start / 10) * 10;
   for (my $x = $start; $x <= $end; $x = $x + 10) {
