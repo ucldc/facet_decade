@@ -34,7 +34,7 @@ if (require.main === module) {
 module.exports = facetDecade;
 
 /*
-Copyright © 2015, Regents of the University of California
+Copyright © 2016, Regents of the University of California
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
