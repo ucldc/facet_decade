@@ -6,10 +6,12 @@ var facetDecade = function(string) {
   var year = new Date().getFullYear();
   var re = /(\d+)/g;
   var matches = string.match(re);
-  if (!matches) { return [] };
-  matches = matches.filter(function(n) {
-    return n >= 1000 && n <= year;
-  });
+  if (matches) {
+    matches = matches.filter(function(n) {
+      return n >= 1000 && n <= year;
+    });
+  }
+  if (!matches || matches.length === 0) { return ['unknown'] };
   var max = Math.max.apply(null, matches);
   var min = Math.min.apply(null, matches);
   min = Math.floor(min / 10) * 10;
@@ -32,7 +34,7 @@ if (require.main === module) {
 module.exports = facetDecade;
 
 /*
-Copyright © 2015, Regents of the University of California
+Copyright © 2016, Regents of the University of California
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
